@@ -1,0 +1,39 @@
+fastapi>=0.111.0
+uvicorn[standard]>=0.29.0
+python-multipart>=0.0.9
+websockets>=12.0
+
+# Database
+sqlalchemy[asyncio]>=2.0.30
+asyncpg>=0.29.0
+alembic>=1.13.1
+pgvector>=0.3.2
+psycopg2-binary>=2.9.9
+
+# Security & Crypto
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+cryptography>=42.0.8
+
+# Redis & Celery
+redis>=5.0.4
+celery[redis]>=5.3.6
+
+# HTTP clients (for JIRA, GitHub, Gemini)
+httpx>=0.27.0
+aiohttp>=3.9.5
+
+# Google AI
+google-generativeai>=0.7.2
+
+# Docker SDK
+docker>=7.1.0
+
+# Utilities
+pydantic>=2.7.4
+pydantic-settings>=2.3.3
+python-dotenv>=1.0.1
+tenacity>=8.3.0        # retries with exponential backoff
+structlog>=24.2.0      # structured logging
+
+# Parsing (Playwright AST parsing handled via Node.js subprocess — see indexing_service.py)
