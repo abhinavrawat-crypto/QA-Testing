@@ -7,7 +7,7 @@ const FEATURES = [
   { id: 'score', label: 'Story Scoring', icon: '⭐', badge: 'Quality Audit', badgeClass: 'badge-blue', desc: 'Score and rewrite user stories with INVEST + Gherkin AC analysis.', href: '/feature-a' },
   { id: 'impact', label: 'Impact Analysis', icon: '🔍', badge: 'Vector Trace', badgeClass: 'badge-purple', desc: 'Trace test impact from JIRA story changes and generate Playwright scripts.', href: '/feature-b' },
   { id: 'discover', label: 'Story Discovery', icon: '🗺️', badge: 'Coverage Gap', badgeClass: 'badge-teal', desc: 'Find test cases without matching user stories and generate drafts.', href: '/feature-c' },
-  { id: 'rootcause', label: 'Root Cause Analysis', icon: '🐞', badge: 'Defect Remediation', badgeClass: 'badge-red', desc: 'Trace a production bug back to a test gap, propose a fix, and verify across environments.', href: '/feature-d' },
+  { id: 'rootcause', label: 'Root Cause Analysis', icon: '🎯', badge: 'Defect Remediation', badgeClass: 'badge-red', desc: 'Trace a production bug back to a test gap, propose a fix, and verify across environments.', href: '/feature-d' },
 ]
 
 export default function Dashboard() {

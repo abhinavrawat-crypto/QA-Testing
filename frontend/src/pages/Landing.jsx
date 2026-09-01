@@ -43,7 +43,7 @@ const WORKFLOW_CARDS = [
     description: 'Trace a production bug back to a test gap and fix it. Determine missing coverage vs assertion gaps with GitHub Actions workflow evidence, edit remediation specs, and verify across environments.',
     href: '/feature-d',
     accentColor: '#e11d48',
-    icon: '🐞',
+    icon: '🎯',
     badgeText: 'Defect Root Cause Engine',
     bullets: ['JIRA Defect & Tag Ingestion', 'GitHub Actions Workflow Tracing', 'Inline Spec Remediation & PRs', 'Multi-Environment Real-time Verification'],
   },
