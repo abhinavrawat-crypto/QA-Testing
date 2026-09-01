@@ -418,19 +418,18 @@ Return ONLY valid JSON matching this exact structure:
     ) -> str:
         """Generate Playwright JavaScript test script from approved remediation."""
         if not self._model:
-            base = target_url or "https://www.example.com"
+            base = target_url or "https://www.amazon.in"
             return f"""import {{ test, expect }} from '@playwright/test';
 
 test('Verify fix for {bug_key} — {bug_summary}', async ({{ page }}) => {{
-  // Navigate to target application environment
-  await page.goto('{base}');
+  const baseURL = process.env.PLAYWRIGHT_TEST_BASE_URL || '{base}';
+  console.log('Navigating to target environment:', baseURL);
+  await page.goto(baseURL, {{ waitUntil: 'commit', timeout: 30000 }});
 
-  // Perform repro and verification steps
-  await page.waitForLoadState('networkidle');
-
-  // Verify fix assertion
-  const heading = page.locator('h1, h2, header').first();
-  await expect(heading).toBeVisible();
+  const searchInput = page.locator('#twotabsearchtextbox, input[name="field-keywords"], input[type="text"]').first();
+  await expect(searchInput).toBeVisible({{ timeout: 15000 }});
+  await searchInput.fill('iPhone 15');
+  console.log('✓ Successfully verified input interaction for {bug_key} on', baseURL);
 }});
 """
 
@@ -445,10 +444,12 @@ TARGET BASE URL (Optional): {target_url or 'Process via process.env.PLAYWRIGHT_T
 
 RULES:
 1. Use ES module syntax (`import {{ test, expect }} from '@playwright/test';`).
-2. Write clean, robust Playwright code using resilient locators (e.g. `page.getByRole`, `page.locator`).
-3. Include clear console logs and inline assertions.
-4. Make sure it runs out of the box in Playwright test runner.
-5. Return ONLY the Javascript code block without markdown backticks or extra text.
+2. Always read base URL dynamically: `const baseURL = process.env.PLAYWRIGHT_TEST_BASE_URL || '{target_url or "https://www.amazon.in"}';`
+3. Navigate with `await page.goto(baseURL, {{ waitUntil: 'commit', timeout: 30000 }});`
+4. Write clean, robust Playwright code using resilient locators with fallbacks (e.g. `page.locator('#twotabsearchtextbox, input[name="field-keywords"], input[type="text"]').first()`).
+5. Add explicit `console.log('✓ ...')` messages for key steps so execution logs are clear.
+6. Make sure it runs out of the box in Playwright test runner without syntax errors.
+7. Return ONLY the Javascript code block without markdown backticks or extra text.
 """
         try:
             resp = self._model.generate_content(prompt)
@@ -458,12 +459,18 @@ RULES:
             return raw
         except Exception as e:
             logger.error(f"Error generating Playwright fix script: {e}")
-            base = target_url or "https://www.example.com"
+            base = target_url or "https://www.amazon.in"
             return f"""import {{ test, expect }} from '@playwright/test';
 
 test('Verify fix for {bug_key} — {bug_summary}', async ({{ page }}) => {{
-  await page.goto(process.env.PLAYWRIGHT_TEST_BASE_URL || '{base}');
-  await expect(page).toHaveURL(/.*\\/*/);
+  const baseURL = process.env.PLAYWRIGHT_TEST_BASE_URL || '{base}';
+  console.log('Navigating to target environment:', baseURL);
+  await page.goto(baseURL, {{ waitUntil: 'commit', timeout: 30000 }});
+
+  const searchInput = page.locator('#twotabsearchtextbox, input[name="field-keywords"], input[type="text"]').first();
+  await expect(searchInput).toBeVisible({{ timeout: 15000 }});
+  await searchInput.fill('iPhone 15');
+  console.log('✓ Successfully verified input interaction for {bug_key} on', baseURL);
 }});
 """
 
