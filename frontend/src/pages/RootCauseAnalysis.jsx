@@ -342,7 +342,7 @@ test('Verify fix for ${bugKey} — ${bugResult.summary}', async ({ page }) => {
         {/* Top Header Banner */}
         <div style={{ marginBottom: '2.5rem' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(225, 29, 72, 0.08)', border: '1px solid rgba(225, 29, 72, 0.25)', padding: '0.35rem 0.85rem', borderRadius: 100, fontSize: '0.78rem', fontWeight: 700, color: '#e11d48', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '0.75rem' }}>
-            🐞 Feature D — Defect Root Cause Engine
+            🐞 Defect Root Cause Engine
           </div>
           <h1 style={{ fontSize: '2.2rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.5px', marginBottom: '0.5rem' }}>
             Production Bug Root Cause Analysis & Remediation
