@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard'
 import StoryScoring from './pages/StoryScoring'
 import ImpactAnalysis from './pages/ImpactAnalysis'
 import StoryDiscovery from './pages/StoryDiscovery'
+import RootCauseAnalysis from './pages/RootCauseAnalysis'
 import Settings from './pages/Settings'
 
 function PrivateRoute({ children }) {
@@ -36,6 +37,8 @@ export default function App() {
         <Route path="/feature-a" element={<PrivateRoute><StoryScoring /></PrivateRoute>} />
         <Route path="/feature-b" element={<PrivateRoute><ImpactAnalysis /></PrivateRoute>} />
         <Route path="/feature-c" element={<PrivateRoute><StoryDiscovery /></PrivateRoute>} />
+        <Route path="/feature-d" element={<PrivateRoute><RootCauseAnalysis /></PrivateRoute>} />
+        <Route path="/root-cause-analysis" element={<PrivateRoute><RootCauseAnalysis /></PrivateRoute>} />
         <Route path="/settings" element={<PrivateRoute><Settings /></PrivateRoute>} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

@@ -7,6 +7,7 @@ const FEATURES = [
   { id: 'score', label: 'Story Scoring', icon: '⭐', badge: 'Quality Audit', badgeClass: 'badge-blue', desc: 'Score and rewrite user stories with INVEST + Gherkin AC analysis.', href: '/feature-a' },
   { id: 'impact', label: 'Impact Analysis', icon: '🔍', badge: 'Vector Trace', badgeClass: 'badge-purple', desc: 'Trace test impact from JIRA story changes and generate Playwright scripts.', href: '/feature-b' },
   { id: 'discover', label: 'Story Discovery', icon: '🗺️', badge: 'Coverage Gap', badgeClass: 'badge-teal', desc: 'Find test cases without matching user stories and generate drafts.', href: '/feature-c' },
+  { id: 'rootcause', label: 'Root Cause Analysis', icon: '🐞', badge: 'Defect Remediation', badgeClass: 'badge-red', desc: 'Trace a production bug back to a test gap, propose a fix, and verify across environments.', href: '/feature-d' },
 ]
 
 export default function Dashboard() {
@@ -81,8 +82,9 @@ export default function Dashboard() {
               // Custom colors & tags for each card
               const isScore = f.id === 'score';
               const isImpact = f.id === 'impact';
-              const borderTheme = isScore ? 'rgba(37,99,235,0.4)' : isImpact ? 'rgba(139,92,246,0.4)' : 'rgba(45,212,191,0.4)';
-              const badgeTheme = isScore ? 'badge-blue' : isImpact ? 'badge-purple' : 'badge-green';
+              const isDiscover = f.id === 'discover';
+              const borderTheme = isScore ? 'rgba(37,99,235,0.4)' : isImpact ? 'rgba(139,92,246,0.4)' : isDiscover ? 'rgba(45,212,191,0.4)' : 'rgba(225,29,72,0.4)';
+              const badgeTheme = isScore ? 'badge-blue' : isImpact ? 'badge-purple' : isDiscover ? 'badge-green' : 'badge-red';
 
               return (
                 <div

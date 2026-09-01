@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import get_settings
 from app.database import Base, engine
 from app.models import *  # noqa: F401, F403 — ensures all models are registered
-from app.routers import auth, jira, github, analysis, indexing, code_gen, discovery, runner, settings
+from app.routers import auth, jira, github, analysis, indexing, code_gen, discovery, runner, settings, root_cause
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -54,12 +54,13 @@ app.include_router(code_gen.router, prefix="/api")
 app.include_router(discovery.router, prefix="/api")
 app.include_router(runner.router, prefix="/api")
 app.include_router(settings.router, prefix="/api")
+app.include_router(root_cause.router, prefix="/api")
 
 
 # ---- Health check ----
 @app.get("/api/health", tags=["Health"])
 async def health():
-    return {"status": "ok", "version": settings.APP_VERSION}
+    return {"status": "ok", "version": app_settings.APP_VERSION}
 
 
 # ---- WebSocket for job status / run logs ----

@@ -36,6 +36,17 @@ const WORKFLOW_CARDS = [
     badgeText: 'Reverse Index Engine',
     bullets: ['Test-to-Story Reverse Index', 'AI Draft Story Generation', 'Inline Spec & Summary Editor', 'One-Click JIRA Issue Push'],
   },
+  {
+    id: 'root-cause',
+    tag: 'Production Defect Analysis',
+    title: 'Production Bug Root Cause & Remediation',
+    description: 'Trace a production bug back to a test gap and fix it. Determine missing coverage vs assertion gaps with GitHub Actions workflow evidence, edit remediation specs, and verify across environments.',
+    href: '/feature-d',
+    accentColor: '#e11d48',
+    icon: '🐞',
+    badgeText: 'Defect Root Cause Engine',
+    bullets: ['JIRA Defect & Tag Ingestion', 'GitHub Actions Workflow Tracing', 'Inline Spec Remediation & PRs', 'Multi-Environment Real-time Verification'],
+  },
 ]
 
 const TRUST_METRICS = [

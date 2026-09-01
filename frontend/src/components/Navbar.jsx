@@ -27,6 +27,7 @@ export default function Navbar() {
               <NavLink to="/feature-a" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>Story Audit</NavLink>
               <NavLink to="/feature-b" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>Impact Analysis</NavLink>
               <NavLink to="/feature-c" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>Story Discovery</NavLink>
+              <NavLink to="/feature-d" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>Root Cause Analysis</NavLink>
               <NavLink to="/settings" className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}>Settings</NavLink>
               <button className="btn btn-ghost" onClick={handleLogout} style={{ fontSize: '0.85rem' }}>Sign out</button>
               <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem', fontWeight: 700, color: '#fff', boxShadow: '0 2px 8px rgba(37,99,235,0.2)' }}>

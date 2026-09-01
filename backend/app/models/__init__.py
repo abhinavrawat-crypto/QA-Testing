@@ -9,6 +9,7 @@ from app.models.analysis import (
     PlaywrightRun,
     StoryGenerationProposal,
     AuditLog,
+    RootCauseRun,
 )
 
 __all__ = [
@@ -25,4 +26,5 @@ __all__ = [
     "PlaywrightRun",
     "StoryGenerationProposal",
     "AuditLog",
+    "RootCauseRun",
 ]

@@ -119,3 +119,17 @@ class AuditLog(Base):
     metadata_: Mapped[dict] = mapped_column("metadata", JSON, default=dict)
     ip_address: Mapped[str | None] = mapped_column(INET, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
+
+class RootCauseRun(Base):
+    __tablename__ = "root_cause_runs"
+
+    id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    user_id: Mapped[uuid.UUID] = mapped_column(UUID(as_uuid=True), ForeignKey("users.id"), nullable=False)
+    status: Mapped[str] = mapped_column(String(20), default="completed", nullable=False)
+    jira_project_key: Mapped[str] = mapped_column(String(50), nullable=False)
+    filter_label: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    bugs_analyzed: Mapped[list] = mapped_column(JSON, default=list)
+    results: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
+
