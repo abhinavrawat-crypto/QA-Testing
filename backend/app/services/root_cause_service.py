@@ -478,7 +478,7 @@ test('Verify fix for {bug_key} — {bug_summary}', async ({{ page }}) => {{
         environments: List[Dict[str, Any]], # [{ name: str, base_url: str, env_vars: dict }]
     ) -> Dict[str, Any]:
         """Execute Playwright script concurrently across multiple arbitrary user environments."""
-        runner_svc = RunnerService(self.db)
+        from app.database import AsyncSessionLocal
 
         async def run_env(env_item: Dict[str, Any]):
             env_name = env_item.get("name", "Environment")
@@ -487,27 +487,29 @@ test('Verify fix for {bug_key} — {bug_summary}', async ({{ page }}) => {{
 
             start_t = datetime.now(timezone.utc)
             try:
-                run_record = await runner_svc.execute_playwright_script(
-                    user_id=user_id,
-                    script_code=script_code,
-                    target_url=base_url,
-                    env_vars=custom_vars,
-                    timeout_seconds=60,
-                    headed=False,
-                )
-                end_t = datetime.now(timezone.utc)
-                duration_sec = (end_t - start_t).total_seconds()
+                async with AsyncSessionLocal() as env_db:
+                    runner_svc = RunnerService(env_db)
+                    run_record = await runner_svc.execute_playwright_script(
+                        user_id=user_id,
+                        script_code=script_code,
+                        target_url=base_url,
+                        env_vars=custom_vars,
+                        timeout_seconds=60,
+                        headed=False,
+                    )
+                    end_t = datetime.now(timezone.utc)
+                    duration_sec = (end_t - start_t).total_seconds()
 
-                return {
-                    "environment_name": env_name,
-                    "base_url": base_url,
-                    "status": run_record.status,  # "passed" | "failed" | "timeout"
-                    "duration_seconds": round(duration_sec, 2),
-                    "run_id": str(run_record.id),
-                    "logs": run_record.logs,
-                    "error_message": run_record.error_message,
-                    "verified": run_record.status == "passed",
-                }
+                    return {
+                        "environment_name": env_name,
+                        "base_url": base_url,
+                        "status": run_record.status,  # "passed" | "failed" | "timeout"
+                        "duration_seconds": round(duration_sec, 2),
+                        "run_id": str(run_record.id),
+                        "logs": run_record.logs,
+                        "error_message": None if run_record.status == "passed" else run_record.logs[-300:],
+                        "verified": run_record.status == "passed",
+                    }
             except Exception as e:
                 logger.error(f"Parallel run failed for environment {env_name} ({base_url}): {e}")
                 return {

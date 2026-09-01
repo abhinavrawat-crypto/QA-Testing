@@ -98,6 +98,11 @@ export default {{
   use: {{
     baseURL: process.env.PLAYWRIGHT_TEST_BASE_URL || {repr(target_url or '')},
     headless: {headless_setting},
+    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
+    extraHTTPHeaders: {{
+      'Accept-Language': 'en-US,en;q=0.9',
+    }},
+    ignoreHTTPSErrors: true,
     screenshot: 'only-on-failure',
   }},
   timeout: {timeout_seconds * 1000},
