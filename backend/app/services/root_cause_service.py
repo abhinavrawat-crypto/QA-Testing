@@ -318,13 +318,13 @@ GITHUB ACTIONS WORKFLOW EVIDENCE:
 
 TASK & OUTPUT REQUIREMENT:
 Analyze why this production defect escaped into production.
-1. Determine if a closest existing test case exists in the app test suite:
-   - If YES: Explain what was missed (e.g. "Covers happy-path checkout total, but missed discount-code edge case").
-   - If NO: Explicitly state no test case exists for this scenario and explain why.
+1. Determine if a closest existing test case exists in the repository for this feature domain:
+   - If an indexed candidate test case exists for the feature domain (e.g. checkout, promo code, inventory), set "exists": true, state its file_path and title, and explain what was missed in "what_was_missed".
+   - Set "exists": false ONLY if no relevant test case exists anywhere in the repository for this domain.
 2. Determine Test Gap Type:
-   - "assertion_gap": A test ran and passed, but lacked assertions for this edge case.
-   - "never_executed": A test existed or workflow ran, but this test path was skipped/never executed.
-   - "missing_test": No test case existed anywhere in the repository for this domain.
+   - "assertion_gap": An existing test case exists for the flow, but it lacked assertions for this edge case or variation (Must have closest_test_case.exists = true).
+   - "never_executed": A test existed or workflow ran, but this test path was skipped/never executed (Must have closest_test_case.exists = true).
+   - "missing_test": No test case exists in the repository for this domain (Must have closest_test_case.exists = false).
 3. Assign Confidence Score & Level (High / Medium / Low). If GitHub Actions workflow run data is provided, assign High confidence and cite the specific workflow run/commit SHA. If not available, note that confidence is based on semantic match alone.
 4. Propose Remediation:
    - "modify": Provide a diff-style update to an existing test case.
@@ -358,7 +358,28 @@ Return ONLY valid JSON matching this exact structure:
             raw = resp.text.strip()
             raw = re.sub(r"^```json\s*", "", raw)
             raw = re.sub(r"\s*```$", "", raw)
-            return json.loads(raw)
+            parsed = json.loads(raw)
+
+            # Post-processing: enforce closest_test_case consistency if high similarity candidate exists
+            if candidates_with_scores and candidates_with_scores[0][1] >= 0.65:
+                top_tc, top_score = candidates_with_scores[0]
+                gap_type = parsed.get("test_gap_type", "assertion_gap")
+                if gap_type in ("assertion_gap", "never_executed"):
+                    c_tc = parsed.setdefault("closest_test_case", {})
+                    c_tc["exists"] = True
+                    if not c_tc.get("file_path") or c_tc.get("file_path") == "null":
+                        c_tc["file_path"] = top_tc.file_path
+                    if not c_tc.get("title") or c_tc.get("title") == "null":
+                        c_tc["title"] = top_tc.title
+
+                    rem = parsed.setdefault("proposed_remediation", {})
+                    rem["type"] = "modify"
+                    if not rem.get("target_file") or rem.get("target_file") == "null":
+                        rem["target_file"] = top_tc.file_path
+                    if not rem.get("original_scenario") or rem.get("original_scenario") == "null":
+                        rem["original_scenario"] = top_tc.raw_content
+
+            return parsed
         except Exception as e:
             logger.error(f"Error in Gemini root cause reasoning for {bug_key}: {e}")
             closest_file = candidates_with_scores[0][0].file_path if candidates_with_scores else f"features/{bug_key.lower()}_remediation.feature"
