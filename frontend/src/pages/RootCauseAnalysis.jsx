@@ -373,8 +373,7 @@ test('Verify fix for ${bugKey} — ${bugResult.summary}', async ({ page }) => {
         {/* STEP 1: Select Project, Tag, and Fetch Defects */}
         <div className="glass" style={{ padding: '1.75rem', borderRadius: 'var(--radius-lg)', marginBottom: '2.5rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.85rem' }}>
-            <h2 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ width: 24, height: 24, borderRadius: '50%', background: '#e11d48', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 800 }}>1</span>
+            <h2 style={{ fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
               Fetch Production Defects from JIRA
             </h2>
             <span className="badge badge-purple" style={{ fontSize: '0.75rem' }}>JIRA Integration</span>
@@ -536,8 +535,7 @@ test('Verify fix for ${bugKey} — ${bugResult.summary}', async ({ page }) => {
         {/* STEP 2: Analysis Reasoning Output & Step 3/4 Remediation */}
         {analysisRun?.results?.bugs && (
           <div style={{ marginBottom: '3rem' }}>
-            <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ width: 24, height: 24, borderRadius: '50%', background: '#2563eb', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 800 }}>2</span>
+            <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '1.25rem' }}>
               Root Cause Analysis Findings & Remediation Proposals
             </h2>
 
@@ -692,152 +690,27 @@ test('Verify fix for ${bugKey} — ${bugResult.summary}', async ({ page }) => {
           </div>
         )}
 
-        {/* STEP 6: Multi-Environment Parallel Sandbox Execution Report */}
-        <div className="glass" style={{ padding: '2rem', borderRadius: 'var(--radius-lg)', marginBottom: '3rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '1rem' }}>
-            <div>
-              <h2 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <span style={{ width: 24, height: 24, borderRadius: '50%', background: '#0d9488', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 800 }}>3</span>
-                Step 6 — Multi-Environment Parallel Verification Sandbox
-              </h2>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: '0.25rem 0 0' }}>
-                Supply arbitrary live base URLs and credentials. The platform runs the generated Playwright test script concurrently in isolated sandboxed runs.
-              </p>
-            </div>
-            <span className="badge badge-teal">Parallel Isolated Sandbox</span>
-          </div>
-
-          {/* Environment Config Cards */}
-          <div style={{ marginBottom: '1.5rem' }}>
-            <div style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '0.75rem' }}>
-              Target Execution Environments ({environments.length} configured):
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1rem', marginBottom: '1.25rem' }}>
-              {environments.map(env => (
-                <div key={env.id} style={{ background: 'var(--color-surface-2)', padding: '1rem 1.25rem', borderRadius: 'var(--radius-md)', border: '1px solid var(--color-border)', position: 'relative' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
-                    <strong style={{ fontSize: '0.9rem', color: 'var(--text-primary)' }}>{env.name}</strong>
-                    <button
-                      onClick={() => handleRemoveEnvironment(env.id)}
-                      style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.8rem', fontWeight: 700 }}
-                    >
-                      ✕ Remove
-                    </button>
-                  </div>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--color-teal)', fontFamily: 'monospace', marginBottom: '0.4rem' }}>
-                    🌐 {env.base_url}
-                  </div>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)' }}>
-                    Env Vars: {env.env_vars_str?.replace('\n', ', ') || 'None'}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Add Custom Environment Row */}
-            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', alignItems: 'center', background: 'rgba(255,255,255,0.03)', padding: '1rem', borderRadius: 'var(--radius-md)', border: '1px dashed var(--color-border)' }}>
-              <input
-                type="text"
-                className="input"
-                placeholder="Environment Name (e.g. Staging UK)"
-                value={newEnvName}
-                onChange={e => setNewEnvName(e.target.value)}
-                style={{ flex: 1, minWidth: 180, fontSize: '0.85rem' }}
-              />
-              <input
-                type="text"
-                className="input"
-                placeholder="Base URL (e.g. https://staging.myco.co.uk)"
-                value={newEnvUrl}
-                onChange={e => setNewEnvUrl(e.target.value)}
-                style={{ flex: 1.5, minWidth: 240, fontSize: '0.85rem' }}
-              />
-              <button
-                className="btn btn-secondary"
-                onClick={handleAddEnvironment}
-                style={{ fontSize: '0.85rem', padding: '0.55rem 1.15rem' }}
-              >
-                + Add Environment
-              </button>
-            </div>
-          </div>
-
-          {/* Verification Execution Trigger Button */}
-          {Object.keys(playwrightScripts).length > 0 && (
-            <div style={{ textAlign: 'center', margin: '2rem 0 1rem' }}>
-              <button
-                className="btn btn-primary"
-                onClick={() => handleRunMultiEnvVerify(Object.values(playwrightScripts)[0])}
-                disabled={verifyingEnvs}
-                style={{ padding: '0.9rem 2.5rem', fontSize: '1rem', background: '#0d9488', fontWeight: 800, borderRadius: 10 }}
-              >
-                {verifyingEnvs ? '⚡ Executing Parallel Verification across Environments...' : '⚡ Launch Real-Time Parallel Environment Run →'}
-              </button>
-            </div>
-          )}
-
-          {/* Side-by-Side Comparison Verification Report */}
-          {verificationReport && (
-            <div className="animate-fade-up" style={{ marginTop: '2rem', borderTop: '2px solid var(--color-border)', paddingTop: '1.75rem' }}>
-              <div style={{ background: verificationReport.overall_status === 'passed' ? 'rgba(16, 185, 129, 0.08)' : 'rgba(239, 68, 68, 0.08)', border: `1px solid ${verificationReport.overall_status === 'passed' ? '#10b981' : '#ef4444'}`, padding: '1.25rem', borderRadius: 'var(--radius-md)', marginBottom: '1.75rem' }}>
-                <div style={{ fontSize: '1.1rem', fontWeight: 800, color: verificationReport.overall_status === 'passed' ? '#10b981' : '#ef4444', marginBottom: '0.35rem' }}>
-                  {verificationReport.summary_statement}
-                </div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                  Executed at: {new Date(verificationReport.executed_at).toLocaleString()} | Passed: {verificationReport.passed_count}/{verificationReport.total_count} Environments
-                </div>
-              </div>
-
-              <div style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '1rem' }}>
-                Side-by-Side Environment Comparison Report:
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '1.5rem' }}>
-                {verificationReport.environment_results?.map(r => (
-                  <div key={r.environment_name} style={{ background: '#090d16', border: '1px solid #1e293b', borderRadius: 'var(--radius-md)', overflow: 'hidden' }}>
-                    {/* Card Header */}
-                    <div style={{ background: '#1e293b', padding: '0.85rem 1.15rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <div>
-                        <div style={{ fontSize: '0.92rem', fontWeight: 800, color: '#ffffff' }}>{r.environment_name}</div>
-                        <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontFamily: 'monospace' }}>{r.base_url}</div>
-                      </div>
-                      <span className={`badge ${r.status === 'passed' ? 'badge-green' : 'badge-red'}`} style={{ fontSize: '0.75rem', fontWeight: 800 }}>
-                        {r.status === 'passed' ? '✓ PASSED' : '✕ FAILED'} ({r.duration_seconds}s)
-                      </span>
-                    </div>
-
-                    {/* Card Body Log */}
-                    <div style={{ padding: '1rem', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.78rem', color: '#cbd5e1', maxHeight: 220, overflowY: 'auto', lineHeight: 1.5 }}>
-                      <pre style={{ margin: 0, whiteSpace: 'pre-wrap' }}>
-                        {r.logs}
-                      </pre>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+        {/* End of Findings & Remediation Proposals */}
       </div>
 
       {/* GitHub PR Modal */}
       {showPrModal && (
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.75)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem' }}>
-          <div className="glass" style={{ background: '#0f172a', border: '1px solid #334155', borderRadius: 16, width: '100%', maxWidth: 640, padding: '2rem', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', borderBottom: '1px solid #334155', paddingBottom: '0.85rem' }}>
-              <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#ffffff', margin: 0 }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.5)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '1rem' }}>
+          <div style={{ background: '#ffffff', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-lg)', width: '100%', maxWidth: 640, padding: '2rem', boxShadow: 'var(--shadow-card-hover)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem', borderBottom: '1px solid var(--color-border)', paddingBottom: '0.85rem' }}>
+              <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
                 🚀 Open GitHub Pull Request
               </h3>
-              <button onClick={() => setShowPrModal(false)} style={{ background: 'none', border: 'none', color: '#94a3b8', fontSize: '1.2rem', cursor: 'pointer' }}>✕</button>
+              <button onClick={() => setShowPrModal(false)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '1.2rem', cursor: 'pointer' }}>✕</button>
             </div>
 
             {prResult ? (
               <div style={{ textAlign: 'center', padding: '1.5rem 0' }}>
                 <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎉</div>
-                <h4 style={{ fontSize: '1.2rem', fontWeight: 800, color: '#10b981', marginBottom: '0.5rem' }}>
+                <h4 style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--color-emerald)', marginBottom: '0.5rem' }}>
                   Pull Request Created Successfully!
                 </h4>
-                <p style={{ fontSize: '0.88rem', color: '#94a3b8', marginBottom: '1.5rem' }}>
+                <p style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
                   Branch <code>{prResult.branch_name}</code> created and remediation spec committed.
                 </p>
                 <a
@@ -845,7 +718,7 @@ test('Verify fix for ${bugKey} — ${bugResult.summary}', async ({ page }) => {
                   target="_blank"
                   rel="noreferrer"
                   className="btn btn-primary"
-                  style={{ padding: '0.8rem 1.75rem', background: '#2563eb', textDecoration: 'none', fontWeight: 700, borderRadius: 8, display: 'inline-block' }}
+                  style={{ padding: '0.8rem 1.75rem', textDecoration: 'none', fontWeight: 700, display: 'inline-block' }}
                 >
                   View Pull Request #{prResult.pr_number} on GitHub ↗
                 </a>
@@ -853,7 +726,7 @@ test('Verify fix for ${bugKey} — ${bugResult.summary}', async ({ page }) => {
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#94a3b8', marginBottom: '0.35rem' }}>
+                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
                     Target Branch Name
                   </label>
                   <input
@@ -861,12 +734,12 @@ test('Verify fix for ${bugKey} — ${bugResult.summary}', async ({ page }) => {
                     className="input"
                     value={prBranchName}
                     onChange={e => setPrBranchName(e.target.value)}
-                    style={{ width: '100%', background: '#1e293b', color: '#fff', border: '1px solid #475569' }}
+                    style={{ width: '100%' }}
                   />
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#94a3b8', marginBottom: '0.35rem' }}>
+                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
                     Pull Request Title
                   </label>
                   <input
@@ -874,12 +747,12 @@ test('Verify fix for ${bugKey} — ${bugResult.summary}', async ({ page }) => {
                     className="input"
                     value={prTitle}
                     onChange={e => setPrTitle(e.target.value)}
-                    style={{ width: '100%', background: '#1e293b', color: '#fff', border: '1px solid #475569' }}
+                    style={{ width: '100%' }}
                   />
                 </div>
 
                 <div>
-                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#94a3b8', marginBottom: '0.35rem' }}>
+                  <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.35rem' }}>
                     Pull Request Description
                   </label>
                   <textarea
@@ -887,7 +760,7 @@ test('Verify fix for ${bugKey} — ${bugResult.summary}', async ({ page }) => {
                     rows={4}
                     value={prBody}
                     onChange={e => setPrBody(e.target.value)}
-                    style={{ width: '100%', background: '#1e293b', color: '#fff', border: '1px solid #475569', fontSize: '0.82rem' }}
+                    style={{ width: '100%', fontSize: '0.82rem' }}
                   />
                 </div>
 
@@ -910,232 +783,80 @@ test('Verify fix for ${bugKey} — ${bugResult.summary}', async ({ page }) => {
         </div>
       )}
 
-      {/* Playwright Script Generator & Parallel Verification Modal Popup */}
+      {/* Playwright Test Spec Modal */}
       {pwModal && createPortal(
-        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.85)', backdropFilter: 'blur(10px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '1rem', boxSizing: 'border-box' }}>
-          <div className="glass" style={{ width: '96%', maxWidth: 1280, height: '92vh', maxHeight: 920, display: 'flex', flexDirection: 'column', background: '#090d16', border: '1px solid #334155', borderRadius: 16, overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)' }}>
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.5)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: '1rem', boxSizing: 'border-box' }}>
+          <div style={{ width: '92%', maxWidth: 880, background: '#ffffff', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-lg)', overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(15, 23, 42, 0.25)', display: 'flex', flexDirection: 'column' }}>
             
             {/* Modal Header */}
-            <div style={{ padding: '1.25rem 1.75rem', borderBottom: '1px solid #1e293b', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#0f172a' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
-                <div style={{ background: 'rgba(13, 148, 136, 0.2)', border: '1px solid rgba(13, 148, 136, 0.4)', color: '#2dd4bf', padding: '0.4rem 0.75rem', borderRadius: 8, fontSize: '0.82rem', fontWeight: 800 }}>
-                  🎭 Playwright Engine
-                </div>
+            <div style={{ padding: '1.25rem 1.75rem', borderBottom: '1px solid var(--color-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--color-surface-2)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                <span style={{ fontSize: '1.25rem' }}>🎭</span>
                 <div>
-                  <h3 style={{ margin: 0, fontSize: '1.15rem', fontWeight: 800, color: '#ffffff' }}>
-                    Playwright Script Generator & Parallel Execution Sandbox
+                  <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+                    Generated Playwright Test Spec
                   </h3>
-                  <span style={{ fontSize: '0.82rem', color: '#94a3b8' }}>
-                    Target Defect: <strong style={{ color: '#38bdf8' }}>{pwModal.bugKey}</strong> — {pwModal.bugSummary}
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                    Target Defect: <strong style={{ color: 'var(--color-primary)' }}>{pwModal.bugKey}</strong> — {pwModal.bugSummary}
                   </span>
                 </div>
               </div>
-              <button onClick={() => setPwModal(null)} style={{ background: 'none', border: 'none', color: '#94a3b8', fontSize: '1.4rem', cursor: 'pointer', padding: '0.3rem 0.6rem' }}>✕</button>
+              <button onClick={() => setPwModal(null)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '1.3rem', cursor: 'pointer', padding: '0.2rem 0.5rem' }}>✕</button>
             </div>
 
-            {/* Modal Scroll Content */}
-            <div style={{ padding: '1.5rem', overflowY: 'auto', flex: 1, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-              
-              {/* Top Split Section: Script Editor (Left) & Multi-Environment Setup (Right) */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: '1.5rem' }}>
-                
-                {/* Left Panel: Script Code Editor */}
-                <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: 12, padding: '1.25rem', display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-                    <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#e2e8f0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      📄 Generated Playwright Spec Code (`test.spec.js`)
-                    </span>
-                    <button
-                      className="btn btn-ghost"
-                      onClick={() => {
-                        navigator.clipboard.writeText(pwModal.scriptCode)
-                        setCopyScriptSuccess(true)
-                        setTimeout(() => setCopyScriptSuccess(false), 2000)
-                      }}
-                      style={{ fontSize: '0.78rem', padding: '0.3rem 0.6rem', color: copyScriptSuccess ? '#10b981' : '#38bdf8', border: '1px solid rgba(56, 189, 248, 0.3)' }}
-                    >
-                      {copyScriptSuccess ? '✓ Copied to Clipboard!' : '📋 Copy Script Code'}
-                    </button>
-                  </div>
-                  <textarea
-                    style={{
-                      width: '100%',
-                      height: 220,
-                      background: '#040711',
-                      color: '#38bdf8',
-                      border: '1px solid #1e293b',
-                      borderRadius: 8,
-                      padding: '1rem',
-                      fontFamily: 'JetBrains Mono, monospace',
-                      fontSize: '0.82rem',
-                      lineHeight: 1.55,
-                      whiteSpace: 'pre',
-                      resize: 'vertical',
-                      boxSizing: 'border-box'
-                    }}
-                    value={pwModal.scriptCode}
-                    onChange={e => setPwModal(prev => ({ ...prev, scriptCode: e.target.value }))}
-                  />
-                </div>
-
-                {/* Right Panel: Environments & Execution Button */}
-                <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: 12, padding: '1.25rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                  <div>
-                    <div style={{ fontSize: '0.88rem', fontWeight: 800, color: '#ffffff', marginBottom: '0.85rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                      🌐 Target Environments under Test ({environments.length})
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', marginBottom: '1rem', maxHeight: 150, overflowY: 'auto' }}>
-                      {environments.map(e => (
-                        <div key={e.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.6rem 0.85rem', background: '#1e293b', border: '1px solid #334155', borderRadius: 8 }}>
-                          <div>
-                            <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#ffffff' }}>{e.name}</div>
-                            <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontFamily: 'monospace' }}>{e.base_url}</div>
-                          </div>
-                          <button onClick={() => handleRemoveEnvironment(e.id)} style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.9rem' }}>✕</button>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Add Custom Environment Row */}
-                    <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
-                      <input
-                        type="text"
-                        placeholder="Env Name (e.g. Amazon Staging)"
-                        className="input"
-                        value={newEnvName}
-                        onChange={e => setNewEnvName(e.target.value)}
-                        style={{ flex: 1, background: '#1e293b', color: '#fff', border: '1px solid #334155', fontSize: '0.78rem', padding: '0.4rem 0.6rem' }}
-                      />
-                      <input
-                        type="text"
-                        placeholder="https://..."
-                        className="input"
-                        value={newEnvUrl}
-                        onChange={e => setNewEnvUrl(e.target.value)}
-                        style={{ flex: 1, background: '#1e293b', color: '#fff', border: '1px solid #334155', fontSize: '0.78rem', padding: '0.4rem 0.6rem' }}
-                      />
-                      <button className="btn btn-secondary" onClick={handleAddEnvironment} style={{ fontSize: '0.78rem', padding: '0.4rem 0.75rem', background: '#334155', color: '#fff' }}>+ Add</button>
-                    </div>
-                  </div>
-
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => handleRunMultiEnvVerify(pwModal.scriptCode)}
-                    disabled={verifyingEnvs}
-                    style={{ width: '100%', padding: '0.85rem', fontSize: '0.95rem', background: '#0d9488', fontWeight: 800, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
-                  >
-                    {verifyingEnvs ? <><span className="spinner" style={{ width: 16, height: 16 }} /> Executing Parallel Run across Environments…</> : '⚡ Launch Real-Time Parallel Environment Run →'}
-                  </button>
-                </div>
+            {/* Modal Body */}
+            <div style={{ padding: '1.5rem', background: '#ffffff', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--text-secondary)' }}>
+                  📄 Playwright Spec Code (`test.spec.js`)
+                </span>
+                <span className="badge badge-blue">Playwright JavaScript</span>
               </div>
 
-              {/* Bottom Section: Side-by-Side Execution & Browser Visualizer */}
-              {(verifyingEnvs || verificationReport) && (
-                <div style={{ background: '#090d16', border: '1px solid #1e293b', borderRadius: 12, padding: '1.25rem' }}>
-                  <div style={{ fontSize: '1rem', fontWeight: 800, color: '#ffffff', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                    🖥️ Side-by-Side Live Environment Execution & Browser Visualizer
-                    {verifyingEnvs && <span className="badge badge-blue">EXECUTION IN PROGRESS</span>}
-                  </div>
+              <textarea
+                style={{
+                  width: '100%',
+                  height: 320,
+                  background: '#0f172a',
+                  color: '#38bdf8',
+                  border: '1px solid #1e293b',
+                  borderRadius: 'var(--radius-md)',
+                  padding: '1rem',
+                  fontFamily: 'JetBrains Mono, monospace',
+                  fontSize: '0.84rem',
+                  lineHeight: 1.55,
+                  whiteSpace: 'pre',
+                  resize: 'vertical',
+                  boxSizing: 'border-box'
+                }}
+                value={pwModal.scriptCode}
+                onChange={e => setPwModal(prev => ({ ...prev, scriptCode: e.target.value }))}
+              />
+            </div>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: '1.5rem' }}>
-                    {/* Left Column: Terminal Output Logs */}
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                      {verifyingEnvs ? (
-                        <div style={{ padding: '2.5rem', background: '#0f172a', borderRadius: 10, border: '1px solid #1e293b', textAlign: 'center' }}>
-                          <span className="spinner" style={{ width: 36, height: 36, marginBottom: '1rem', borderColor: '#0d9488', borderTopColor: 'transparent' }} />
-                          <div style={{ fontSize: '0.95rem', fontWeight: 700, color: '#ffffff', marginBottom: '0.3rem' }}>Running Parallel Playwright Containers...</div>
-                          <div style={{ fontSize: '0.8rem', color: '#94a3b8' }}>Executing concurrently on Amazon India (amazon.in) & Amazon US (amazon.com)</div>
-                        </div>
-                      ) : (
-                        verificationReport?.environment_results?.map(r => (
-                          <div key={r.environment_name} style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: 10, overflow: 'hidden' }}>
-                            <div style={{ background: '#1e293b', padding: '0.75rem 1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <div>
-                                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ffffff' }}>{r.environment_name}</div>
-                                <div style={{ fontSize: '0.72rem', color: '#94a3b8', fontFamily: 'monospace' }}>{r.base_url}</div>
-                              </div>
-                              <span className={`badge ${r.status === 'passed' ? 'badge-green' : 'badge-red'}`} style={{ fontSize: '0.75rem', fontWeight: 800 }}>
-                                {r.status === 'passed' ? '✓ PASSED' : '✕ FAILED'} ({r.duration_seconds}s)
-                              </span>
-                            </div>
-                            <pre style={{ margin: 0, padding: '0.85rem', fontSize: '0.78rem', fontFamily: 'JetBrains Mono, monospace', background: '#040711', color: r.status === 'passed' ? '#a7f3d0' : '#fca5a5', maxHeight: 160, overflowY: 'auto', lineHeight: 1.5, whiteSpace: 'pre-wrap' }}>
-                              {r.logs}
-                            </pre>
-                          </div>
-                        ))
-                      )}
-                    </div>
-
-                    {/* Right Column: Live Simulated Browser Window */}
-                    <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: 10, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                      {/* Browser Address Bar Header */}
-                      <div style={{ background: '#1e293b', padding: '0.6rem 0.85rem', borderBottom: '1px solid #334155', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                        <div style={{ display: 'flex', gap: '0.35rem' }}>
-                          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#ef4444' }} />
-                          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#f59e0b' }} />
-                          <span style={{ width: 10, height: 10, borderRadius: '50%', background: '#10b981' }} />
-                        </div>
-                        {/* Environment Switcher Tabs */}
-                        <div style={{ display: 'flex', gap: '0.3rem' }}>
-                          {environments.map((e, idx) => (
-                            <button
-                              key={e.id}
-                              onClick={() => setActiveEnvTab(idx)}
-                              style={{
-                                fontSize: '0.75rem',
-                                fontWeight: activeEnvTab === idx ? 700 : 500,
-                                color: activeEnvTab === idx ? '#ffffff' : '#94a3b8',
-                                background: activeEnvTab === idx ? '#0f172a' : 'transparent',
-                                border: 'none',
-                                padding: '0.25rem 0.6rem',
-                                borderRadius: '6px 6px 0 0',
-                                cursor: 'pointer'
-                              }}
-                            >
-                              {e.name}
-                            </button>
-                          ))}
-                        </div>
-                        {/* URL Bar */}
-                        <div style={{ flex: 1, background: '#0f172a', borderRadius: 6, padding: '0.25rem 0.6rem', display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.75rem', color: '#38bdf8', fontFamily: 'monospace' }}>
-                          <span>🔒</span>
-                          <span>{environments[activeEnvTab]?.base_url || 'https://www.amazon.in'}</span>
-                        </div>
-                      </div>
-
-                      {/* Browser Content Area */}
-                      <div style={{ padding: '1.25rem', flex: 1, background: '#040711', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #1e293b', paddingBottom: '0.75rem' }}>
-                          <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ffffff' }}>
-                            Active Sandbox Environment: <span style={{ color: '#38bdf8' }}>{environments[activeEnvTab]?.name}</span>
-                          </span>
-                          <span className="badge badge-green" style={{ fontSize: '0.72rem' }}>HTTP 200 OK — Headless Renderer</span>
-                        </div>
-
-                        <div style={{ background: '#0f172a', border: '1px solid #1e293b', borderRadius: 8, padding: '1rem' }}>
-                          <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#94a3b8', marginBottom: '0.6rem', textTransform: 'uppercase' }}>
-                            Automated Playwright Actions Progress
-                          </div>
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '0.8rem', color: '#a7f3d0' }}>
-                              <span>✓</span> <code>page.goto('{environments[activeEnvTab]?.base_url}')</code> — Loaded DOM in 2.6s
-                            </div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '0.8rem', color: '#a7f3d0' }}>
-                              <span>✓</span> <code>page.locator('#twotabsearchtextbox')</code> — Target search input located
-                            </div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '0.8rem', color: '#a7f3d0' }}>
-                              <span>✓</span> <code>searchInput.fill('iPhone 15')</code> — Query parameter filled successfully
-                            </div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', fontSize: '0.8rem', color: '#a7f3d0' }}>
-                              <span>✓</span> <code>expect(suggestions).toBeVisible()</code> — Fix verified across global regional DOMs
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+            {/* Modal Footer */}
+            <div style={{ padding: '1rem 1.5rem', borderTop: '1px solid var(--color-border)', background: 'var(--color-surface-2)', display: 'flex', justifyContent: 'flex-end', gap: '0.85rem' }}>
+              <button
+                className="btn btn-secondary"
+                onClick={() => setPwModal(null)}
+                style={{ fontSize: '0.85rem' }}
+              >
+                Close
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={() => {
+                  navigator.clipboard.writeText(pwModal.scriptCode)
+                  setCopyScriptSuccess(true)
+                  setTimeout(() => {
+                    setCopyScriptSuccess(false)
+                    setPwModal(null)
+                  }, 1200)
+                }}
+                style={{ fontSize: '0.85rem', padding: '0.6rem 1.4rem' }}
+              >
+                {copyScriptSuccess ? '✓ Copied to Clipboard!' : '📋 Copy Script Code'}
+              </button>
             </div>
           </div>
         </div>,
